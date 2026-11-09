@@ -13,4 +13,8 @@
 14 8 0 -1 0 0 0 0 6 0 // Antidote
 14 0 0 -1 0 0 0 0 5 1 // Apple
 14 22 0 -1 0 0 0 0 6 1 // Jewel of Creation
+14 23 0 -1 0 0 0 0 0 8 // Scroll of Emperor (class change quest)
+14 24 0 -1 0 0 0 0 1 8 // Broken Sword (DK class change quest)
+14 25 0 -1 0 0 0 0 2 8 // Tear of Elf (Elf class change quest)
+14 26 0 -1 0 0 0 0 3 8 // Soul Shard of Wizard (DW class change quest)
 end

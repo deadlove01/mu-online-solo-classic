@@ -18,7 +18,7 @@ SOLO_DIFFICULTY_CONFIG g_SoloDifficulty = {
 	0.7f,  // monsterHpRate (0.7x)
 	0.7f,  // monsterDmgRate (0.7x)
 	0.0f,  // deathExpPenalty (None)
-	1.5f   // excDropRate (1.5x)
+	10.0f  // excDropRate (10x)
 };
 
 static const SOLO_DIFFICULTY_CONFIG kDifficultyPresets[6] = {
@@ -33,7 +33,7 @@ static const SOLO_DIFFICULTY_CONFIG kDifficultyPresets[6] = {
 		0.7f,  // monsterHpRate
 		0.7f,  // monsterDmgRate
 		0.0f,  // deathExpPenalty (None)
-		1.5f   // excDropRate
+		10.0f  // excDropRate
 	},
 	// 1: 🟡 Medium (Valhalla)
 	{
@@ -46,7 +46,7 @@ static const SOLO_DIFFICULTY_CONFIG kDifficultyPresets[6] = {
 		1.0f,  // monsterHpRate
 		1.0f,  // monsterDmgRate
 		0.03f, // deathExpPenalty (Normal 3%)
-		1.0f   // excDropRate
+		5.0f   // excDropRate
 	},
 	// 2: 🔴 Hard (Asgard)
 	{
@@ -59,20 +59,20 @@ static const SOLO_DIFFICULTY_CONFIG kDifficultyPresets[6] = {
 		1.5f,  // monsterHpRate
 		1.5f,  // monsterDmgRate
 		0.06f, // deathExpPenalty (Double 6%)
-		0.5f   // excDropRate
+		2.0f   // excDropRate
 	},
 	// 3: 🟣 Easy FUN (Elysium) - same stats as Easy, with FUN shops
 	{
-		300,   // expRate
-		300,   // eventExpRate
-		150,   // itemDropRate
-		100,   // zenDropRate
+		9999,   // expRate
+		9999,   // eventExpRate
+		1500,   // itemDropRate
+		5000,   // zenDropRate
 		300,   // resetLevel
 		50,    // grandResetResets
 		0.7f,  // monsterHpRate
 		0.7f,  // monsterDmgRate
 		0.0f,  // deathExpPenalty (None)
-		1.5f   // excDropRate
+		10.0f  // excDropRate
 	},
 	// 4: 🟣 Medium FUN (Olympus) - same stats as Medium, with FUN shops
 	{
@@ -85,7 +85,7 @@ static const SOLO_DIFFICULTY_CONFIG kDifficultyPresets[6] = {
 		1.0f,  // monsterHpRate
 		1.0f,  // monsterDmgRate
 		0.03f, // deathExpPenalty (Normal 3%)
-		1.0f   // excDropRate
+		5.0f   // excDropRate
 	},
 	// 5: 🟣 Hard FUN (Atlantis) - same stats as Hard, with FUN shops
 	{
@@ -98,7 +98,7 @@ static const SOLO_DIFFICULTY_CONFIG kDifficultyPresets[6] = {
 		1.5f,  // monsterHpRate
 		1.5f,  // monsterDmgRate
 		0.06f, // deathExpPenalty (Double 6%)
-		0.5f   // excDropRate
+		2.0f   // excDropRate
 	}
 };
 

@@ -368,6 +368,8 @@ bool CChaosBox::GetChaosMixRateAndMoney(int aIndex, int type, DWORD& rate, DWORD
 		}
 	}
 
+	rate = 100;
+
 	return true;
 }
 
@@ -382,7 +384,7 @@ void CChaosBox::ChaosItemMix(LPOBJ lpObj)
 		return;
 	}
 
-	lpObj->ChaosSuccessRate = rate;
+	lpObj->ChaosSuccessRate = 100;
 
 	lpObj->ChaosMoney = money;
 
@@ -569,7 +571,7 @@ void CChaosBox::DevilSquareMix(LPOBJ lpObj)
 		return;
 	}
 
-	lpObj->ChaosSuccessRate = rate;
+	lpObj->ChaosSuccessRate = 100;
 
 	lpObj->ChaosMoney = money;
 
@@ -708,7 +710,7 @@ void CChaosBox::PlusItemLevelMix(LPOBJ lpObj, int type)
 		return;
 	}
 
-	lpObj->ChaosSuccessRate = rate;
+	lpObj->ChaosSuccessRate = 100;
 
 	lpObj->ChaosMoney = money;
 
@@ -839,7 +841,7 @@ void CChaosBox::DinorantMix(LPOBJ lpObj)
 		return;
 	}
 
-	lpObj->ChaosSuccessRate = rate;
+	lpObj->ChaosSuccessRate = 100;
 
 	lpObj->ChaosMoney = money;
 
@@ -930,7 +932,7 @@ void CChaosBox::FruitMix(LPOBJ lpObj)
 		return;
 	}
 
-	lpObj->ChaosSuccessRate = rate;
+	lpObj->ChaosSuccessRate = 100;
 
 	lpObj->ChaosMoney = money;
 
@@ -1015,7 +1017,7 @@ void CChaosBox::Wing1Mix(LPOBJ lpObj)
 		return;
 	}
 
-	lpObj->ChaosSuccessRate = rate;
+	lpObj->ChaosSuccessRate = 100;
 
 	lpObj->ChaosMoney = money;
 
@@ -1200,7 +1202,7 @@ void CChaosBox::BloodCastleMix(LPOBJ lpObj)
 		return;
 	}
 
-	lpObj->ChaosSuccessRate = rate;
+	lpObj->ChaosSuccessRate = 100;
 
 	lpObj->ChaosMoney = money;
 
@@ -1355,7 +1357,7 @@ void CChaosBox::Wing2Mix(LPOBJ lpObj)
 		return;
 	}
 
-	lpObj->ChaosSuccessRate = rate;
+	lpObj->ChaosSuccessRate = 100;
 
 	lpObj->ChaosMoney = money;
 
@@ -1404,15 +1406,15 @@ void CChaosBox::Wing2Mix(LPOBJ lpObj)
 
 		RandomManager.GetRandomElement(&ItemIndex);
 
-		gItemOptionRate.GetItemLuckOption(4, &ItemLuckOption);
+		ItemLuckOption = 1;
 
-		gItemOptionRate.GetItemAddOption(4, &ItemAddOption);
+		ItemAddOption = (BYTE)gServerInfo.m_MaxItemOption;
 
-		gItemOptionRate.GetItemExceOption(4, &ItemExceOption);
+		ItemExceOption = 0;
 
-		gItemOptionRate.MakeExceOption(ItemIndex, ItemExceOption, &ItemExceOption);
+		gItemOptionRate.MakeExceOption(ItemIndex, 3, &ItemExceOption);
 
-		GDCreateItemSend(lpObj->Index, 0xFF, 0, 0, ItemIndex, 0, 0, 0, ItemLuckOption, ItemAddOption, -1, (ItemExceOption + (32 * (GetLargeRand() % 2))));
+		GDCreateItemSend(lpObj->Index, 0xFF, 0, 0, ItemIndex, 0, 0, 0, ItemLuckOption, ItemAddOption, -1, (ItemExceOption + 32));
 
 		gLog.Output(LOG_CHAOS_MIX, "[Wing2Mix][Success][%s][%s] - (ChaosSuccessRate: %d, ChaosMoney: %d)", lpObj->Account, lpObj->Name, lpObj->ChaosSuccessRate, lpObj->ChaosMoney);
 	}

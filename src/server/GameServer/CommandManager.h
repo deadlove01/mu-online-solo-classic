@@ -37,6 +37,7 @@ enum eCommandNumber
 	COMMAND_GM_MAKEMOB = 29,
 	COMMAND_GM_TAMASTART = 30,
 	COMMAND_GM = 31,
+	COMMAND_ZEN = 32,
 };
 
 //**********************************************//

@@ -4,7 +4,7 @@
  * ============================================================================
  */
 
-const BUILD_VERSION = window.BUILD_VERSION = 'login103';
+const BUILD_VERSION = window.BUILD_VERSION = 'login119';
 
 // ── 1. Virtual Touch Controls & On-Screen Keyboard ──────────────────────────
 
@@ -420,6 +420,10 @@ window.muInstallAudio = function () {
             if (window.muShowToast) window.muShowToast("Failed to export save file.");
           }
         }
+      } else if (msg.type === 'SHOP_STATE') {
+        if (window.muShopOnState) window.muShopOnState(msg.state);
+      } else if (msg.type === 'SHOP_RESULT') {
+        if (window.muShopOnResult) window.muShopOnResult(msg);
       } else if (msg.type === 'PLAYER_CONNECTED') {
         console.log('[SoloBridge] Player connected to GameServer session:', msg.playerIndex);
       } else if (msg.type === 'PLAYER_DISCONNECTED') {
@@ -511,6 +515,13 @@ window.muInstallAudio = function () {
     },
     getRealm: function () {
       return currentRealm;
+    },
+    shopState: function () {
+      if (worker && workerReady) worker.postMessage({ action: 'SHOP_STATE', payload: {} });
+    },
+    shopBuy: function (id, qty, opts) {
+      opts = opts || {};
+      if (worker && workerReady) worker.postMessage({ action: 'SHOP_BUY', payload: { id: id, qty: qty, level: opts.level, skill: opts.skill, luck: opts.luck, add: opts.add, exc: opts.exc } });
     },
     saveNow: function () {
       if (worker && workerReady) {

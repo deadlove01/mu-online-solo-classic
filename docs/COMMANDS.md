@@ -72,6 +72,7 @@ Commands are typed directly into the standard in-game chat input box (press `Ent
 | `/soccer` | `<GuildName>` | Challenge an opposing guild to Battle Soccer in Arena. |
 | `/onlines` | *none* | Display the current count of online characters. |
 | `/gm` | `[on \| off]` | Cheat command to instantly grant or revoke Administrator (GM Level 2) rights. |
+| `/zen` | `<amount>` | Add Zen to your character (no GM needed, capped at 2,000,000,000). Example: `/zen 5000000`. |
 
 ### Game Master (GM) Commands
 
@@ -186,6 +187,10 @@ Set up an automated grinding loop that automatically performs a reset the exact 
   - As soon as your character reaches the required reset level, the server automatically resets the character without disconnecting or opening menus, and immediately begins assigning points to the designated attributes.
 - **To toggle OFF**:
   - Simply type `/reset auto` without arguments to disable the automated reset loop.
+
+### Reset Shop
+
+Every successful `/reset` (manual or auto) grants **5 Reset Points (RP)**, with a **+10 RP** bonus on every 10th reset. A successful `/grandreset` grants **250 RP**. Click the **Shop** button in the top bar to spend RP on items; higher tiers cost more and the best ones require a minimum reset count. The catalog lives in `src/server/Data/WebShop.txt` (rebuild the server after editing it). Points are saved per character.
 
 ### Grand Reset
 

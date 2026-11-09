@@ -16,6 +16,7 @@
 #include "SoloDifficulty.h"
 #include "PacketManager.h"
 #include "DSProtocol.h"
+#include "WebShop.h"
 
 static bool g_SoloServerInitialized = false;
 
@@ -281,6 +282,21 @@ SOLO_API void SoloServer_SetDifficulty(int mode)
 SOLO_API int SoloServer_GetDifficulty()
 {
 	return (int)SoloDifficulty_GetMode();
+}
+
+SOLO_API const char* SoloServer_ShopState()
+{
+	static std::string json;
+	json = gWebShop.BuildStateJson(SoloTransport_GetPlayerIndex());
+	return json.c_str();
+}
+
+SOLO_API int SoloServer_ShopBuy(int id, int qty, int level, int skill, int luck, int add, int exc)
+{
+	int delivered = 0;
+	WEBSHOP_OPTIONS opt = { level, skill, luck, add, exc };
+	int result = gWebShop.Buy(SoloTransport_GetPlayerIndex(), id, qty, opt, &delivered);
+	return result | (delivered << 8);
 }
 
 } // extern "C"

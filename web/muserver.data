@@ -33,7 +33,7 @@ end//===========================================================================
 "/pkclear"	1	1	1	1	0	0	0	0	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	0	0	//pkclear
 "/addmoney"	1	1	1	1	0	0	0	0	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	0	1	//addmoney <Amount>
 "/submoney"	1	1	1	1	0	0	0	0	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	0	1	//submoney <Amount>
-"/evo"	1	1	1	1	0	0	0	0	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	0	1	//evo
+"/evo"	1	1	1	1	0	0	0	0	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	0	0	//evo
 "/ware"	1	1	1	1	0	0	0	0	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	0	0	//ware <Number>
 "/onlines"	1	1	1	1	0	0	0	0	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	0	0	//onlines
 "/war"	1	1	1	1	0	0	0	0	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	0	0	//war <GuildName>
@@ -54,6 +54,7 @@ end//===========================================================================
 "/makemob"	1	1	1	1	0	0	0	0	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	0	1	//makemob <MonsterNumber>
 "/tamastart"	1	1	1	1	0	0	0	0	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	0	1	//tamastart
 "/gm"	1	1	1	1	0	0	0	0	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	0	0	//gm <on|off>
+"/zen"	1	1	1	1	0	0	0	0	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	0	0	//zen <Amount>
 end
 //=================================================================
 // When click the NPC located on the coordinates
@@ -3606,10 +3607,10 @@ TransformationRing6=41
 ; Jewel Settings
 ;==================================================
 ; Jewel of Soul (+7/+8/+9) upgrade success rate
-JewelOfSoulSuccessRate_AL1=50
-JewelOfSoulSuccessRate_AL0=50
-JewelOfSoulSuccessRate_AL2=50
-JewelOfSoulSuccessRate_AL3=50
+JewelOfSoulSuccessRate_AL1=100
+JewelOfSoulSuccessRate_AL0=100
+JewelOfSoulSuccessRate_AL2=100
+JewelOfSoulSuccessRate_AL3=100
 
 ; Additional Jewel of Soul rate when item has Luck
 JewelOfSoulAddLuckRate_AL0=25
@@ -3618,10 +3619,10 @@ JewelOfSoulAddLuckRate_AL2=25
 JewelOfSoulAddLuckRate_AL3=25
 
 ; Jewel of Life upgrade success rate
-JewelOfLifeSuccessRate_AL0=50
-JewelOfLifeSuccessRate_AL1=50
-JewelOfLifeSuccessRate_AL2=50
-JewelOfLifeSuccessRate_AL3=50
+JewelOfLifeSuccessRate_AL0=100
+JewelOfLifeSuccessRate_AL1=100
+JewelOfLifeSuccessRate_AL2=100
+JewelOfLifeSuccessRate_AL3=100
 
 ;==================================================
 ; Fruit Settings
@@ -5018,7 +5019,7 @@ end
 4
 //Index	Rate0	Rate1	Rate2	Rate3	Rate4	Rate5	Rate6	Comment
 0	10000	0	0	0	0	0	0	//Exc Option (Common)
-1	0	7500	2500	0	0	0	0	//Exc Option (Exc)
+1	0	4000	4000	2000	0	0	0	//Exc Option (Exc)
 2	7000	2400	600	0	0	0	0	//Exc Option (DinorantMix)
 3	8000	2000	0	0	0	0	0	//Exc Option (Wing2Mix)
 4	8000	2000	0	0	0	0	0	//Exc Option (Wing2Mix)
@@ -5032,7 +5033,7 @@ end
 12	5000	5000	0	0	0	0	0	//Exc Option (EventItemBag) (0~1)
 13	3334	3333	3333	0	0	0	0	//Exc Option (EventItemBag) (0~2)
 14	0	5000	5000	0	0	0	0	//Exc Option (EventItemBag) (1~2)
-15	0	3334	3333	3333	0	0	0	//Exc Option (EventItemBag) (1~3)
+15	0	0	0	3334	3333	3333	0	//Exc Option (EventItemBag) (1~3) -> boosted to 3~5 (Kundun boxes only)
 16	0	0	5000	5000	0	0	0	//Exc Option (EventItemBag) (2~3)
 17	0	0	3334	3333	3333	0	0	//Exc Option (EventItemBag) (2~4)
 18	0	0	0	5000	5000	0	0	//Exc Option (EventItemBag) (3~4)
@@ -9507,7 +9508,7 @@ end
 47	1	7	9	9	11	12	48	0	60	400	*	*	0
 48	2	3	240	240	241	243	0	7	60	400	*	*	0
 49	0	7	14	11	27	23	0	0	60	400	*	*	0
-50	0	6	72	140	73	181	0	0	255	400	*	*	0
+50	0	6	72	140	73	181	0	0	50	400	*	*	0
 51	0	6	59	153	59	153	0	0	255	400	*	*	0
 52	0	6	59	164	59	165	0	0	255	400	*	*	0
 53	1	7	14	225	15	230	54	0	130	400	*	*	0
@@ -9539,7 +9540,7 @@ end
 79	2	5	10	244	12	246	0	0	0	400	*	*	0
 end
 //Index	Name			Money	MinLvl	MaxLvl	MinRes	MaxRes	AccLvl	Gate
-1	"Stadium"		3000	255	*	*	*	0	50
+1	"Stadium"		3000	50	*	*	*	0	50
 2	"Lorencia"		1000	10	*	*	*	0	17
 3	"Noria"			1000	10	*	*	*	0	27
 4	"Devias"		1500	20	*	*	*	0	22
@@ -9818,6 +9819,10 @@ end//==============================================================
 14 8 0 -1 0 0 0 0 6 0 // Antidote
 14 0 0 -1 0 0 0 0 5 1 // Apple
 14 22 0 -1 0 0 0 0 6 1 // Jewel of Creation
+14 23 0 -1 0 0 0 0 0 8 // Scroll of Emperor (class change quest)
+14 24 0 -1 0 0 0 0 1 8 // Broken Sword (DK class change quest)
+14 25 0 -1 0 0 0 0 2 8 // Tear of Elf (Elf class change quest)
+14 26 0 -1 0 0 0 0 3 8 // Soul Shard of Wizard (DW class change quest)
 end//==============================================================
 // SHOP
 //==============================================================
@@ -10101,6 +10106,10 @@ end//==============================================================
 12 2 0 -1 0 0 0 0 0 4 // Wings of Satan
 14 0 0 -1 0 0 0 0 5 1 // Apple
 14 22 0 -1 0 0 0 0 6 1 // Jewel of Creation
+14 23 0 -1 0 0 0 0 0 8 // Scroll of Emperor (class change quest)
+14 24 0 -1 0 0 0 0 1 8 // Broken Sword (DK class change quest)
+14 25 0 -1 0 0 0 0 2 8 // Tear of Elf (Elf class change quest)
+14 26 0 -1 0 0 0 0 3 8 // Soul Shard of Wizard (DW class change quest)
 end//==============================================================
 // SHOP
 //==============================================================
@@ -10345,4 +10354,83 @@ end
 
 
 
-end
+end//=====================================================================
+// Reset Shop catalog (prices in Reset Points, 1 reset = 5 RP)
+//
+// Final price = Base + LevelCost[level] + SkillCost + LuckCost
+//             + AddCost * add + ExcCost * (number of excellent options)
+// Players pick the options in the shop, so any item is affordable
+// with fewer options.
+//
+// Price lines:
+//   LevelCost <+0> <+1> ... <+15>   cumulative cost per item level
+//   SkillCost / LuckCost / AddCost / ExcCost <rp>
+//
+// Item lines:
+//   Id Category Base Section Index MaxLevel MaxAdd Skill Luck ExcBits
+//   Skill/Luck: 1 = player may add it, 0 = not available
+//   ExcBits: number of excellent options selectable (0-6)
+//=====================================================================
+LevelCost	0 3 6 10 15 21 28 36 48 62 80 105 140 190 250 330
+SkillCost	20
+LuckCost	20
+AddCost	15
+ExcCost	60
+
+// Jewels (fixed options)
+1	Jewels	40	14	16	0	0	0	0	0
+2	Jewels	40	14	22	0	0	0	0	0
+
+// Helms (Dark Phoenix, Grand Soul, Divine, Great Dragon)
+100	Armor	20	7	17	15	7	0	1	6
+110	Armor	30	7	18	15	7	0	1	6
+120	Armor	40	7	19	15	7	0	1	6
+140	Armor	60	7	21	15	7	0	1	6
+
+// Armors
+101	Armor	20	8	17	15	7	0	1	6
+111	Armor	30	8	18	15	7	0	1	6
+121	Armor	40	8	19	15	7	0	1	6
+131	Armor	50	8	20	15	7	0	1	6
+141	Armor	60	8	21	15	7	0	1	6
+
+// Pants
+102	Armor	20	9	17	15	7	0	1	6
+112	Armor	30	9	18	15	7	0	1	6
+122	Armor	40	9	19	15	7	0	1	6
+132	Armor	50	9	20	15	7	0	1	6
+142	Armor	60	9	21	15	7	0	1	6
+
+// Gloves
+103	Armor	20	10	17	15	7	0	1	6
+113	Armor	30	10	18	15	7	0	1	6
+123	Armor	40	10	19	15	7	0	1	6
+133	Armor	50	10	20	15	7	0	1	6
+143	Armor	60	10	21	15	7	0	1	6
+
+// Boots
+104	Armor	20	11	17	15	7	0	1	6
+114	Armor	30	11	18	15	7	0	1	6
+124	Armor	40	11	19	15	7	0	1	6
+134	Armor	50	11	20	15	7	0	1	6
+144	Armor	60	11	21	15	7	0	1	6
+
+// Weapons
+200	Weapons	40	0	17	15	7	1	1	6
+201	Weapons	40	0	18	15	7	1	1	6
+202	Weapons	50	0	19	15	7	1	1	6
+204	Weapons	40	4	17	15	7	1	1	6
+205	Weapons	50	4	18	15	7	1	1	6
+
+// Wings (1st: Elf/Heaven/Satan, 2nd: Spirits/Soul/Dragon/Darkness)
+300	Wings	100	12	0	15	4	0	1	0
+301	Wings	100	12	1	15	4	0	1	0
+302	Wings	100	12	2	15	4	0	1	0
+303	Wings	200	12	3	15	4	0	1	5
+304	Wings	200	12	4	15	4	0	1	5
+305	Wings	200	12	5	15	4	0	1	5
+306	Wings	200	12	6	15	4	0	1	5
+
+// Pets / mounts (Dinorant: skill + 3 excellent options; Uniria has no options)
+400	Misc	150	13	3	0	0	1	0	3
+401	Misc	100	13	2	0	0	0	0	0

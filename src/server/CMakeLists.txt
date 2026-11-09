@@ -28,6 +28,10 @@ if (EMSCRIPTEN)
 
     set(DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Data")
 
+    # Relink (and repackage /Data) whenever a data file changes
+    file(GLOB_RECURSE DATA_FILES "${DATA_DIR}/*")
+    set_property(TARGET muserver APPEND PROPERTY LINK_DEPENDS ${DATA_FILES})
+
     target_link_options(muserver PRIVATE
         "-O2"
         "-sASSERTIONS=1"
@@ -39,7 +43,7 @@ if (EMSCRIPTEN)
         "-sMODULARIZE=1"
         "-sEXPORT_NAME=createMuServer"
         "-sEXPORTED_RUNTIME_METHODS=['ccall','cwrap','FS','addFunction','removeFunction','setValue','getValue','UTF8ToString','stringToUTF8','HEAPU8','HEAP8','HEAP16','HEAP32','HEAPU32']"
-        "-sEXPORTED_FUNCTIONS=['_malloc','_free','_SoloServer_Init','_SoloServer_Tick','_SoloServer_ConnectPlayer','_SoloServer_DisconnectPlayer','_SoloServer_ReceiveClientPacket','_SoloServer_SetSendCallback','_SoloServer_SetSaveCallback','_SoloServer_SaveAll','_SoloServer_GetPlayerCount','_SoloServer_GetMonsterCount','_SoloServer_SetDifficulty','_SoloServer_GetDifficulty']"
+        "-sEXPORTED_FUNCTIONS=['_malloc','_free','_SoloServer_Init','_SoloServer_Tick','_SoloServer_ConnectPlayer','_SoloServer_DisconnectPlayer','_SoloServer_ReceiveClientPacket','_SoloServer_SetSendCallback','_SoloServer_SetSaveCallback','_SoloServer_SaveAll','_SoloServer_GetPlayerCount','_SoloServer_GetMonsterCount','_SoloServer_SetDifficulty','_SoloServer_GetDifficulty','_SoloServer_ShopState','_SoloServer_ShopBuy']"
         "-sALLOW_TABLE_GROWTH=1"
         "--preload-file" "${DATA_DIR}@/Data"
     )

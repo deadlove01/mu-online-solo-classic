@@ -1,0 +1,80 @@
+//=====================================================================
+// Reset Shop catalog (prices in Reset Points, 1 reset = 5 RP)
+//
+// Final price = Base + LevelCost[level] + SkillCost + LuckCost
+//             + AddCost * add + ExcCost * (number of excellent options)
+// Players pick the options in the shop, so any item is affordable
+// with fewer options.
+//
+// Price lines:
+//   LevelCost <+0> <+1> ... <+15>   cumulative cost per item level
+//   SkillCost / LuckCost / AddCost / ExcCost <rp>
+//
+// Item lines:
+//   Id Category Base Section Index MaxLevel MaxAdd Skill Luck ExcBits
+//   Skill/Luck: 1 = player may add it, 0 = not available
+//   ExcBits: number of excellent options selectable (0-6)
+//=====================================================================
+LevelCost	0 3 6 10 15 21 28 36 48 62 80 105 140 190 250 330
+SkillCost	20
+LuckCost	20
+AddCost	15
+ExcCost	60
+
+// Jewels (fixed options)
+1	Jewels	40	14	16	0	0	0	0	0
+2	Jewels	40	14	22	0	0	0	0	0
+
+// Helms (Dark Phoenix, Grand Soul, Divine, Great Dragon)
+100	Armor	20	7	17	15	7	0	1	6
+110	Armor	30	7	18	15	7	0	1	6
+120	Armor	40	7	19	15	7	0	1	6
+140	Armor	60	7	21	15	7	0	1	6
+
+// Armors
+101	Armor	20	8	17	15	7	0	1	6
+111	Armor	30	8	18	15	7	0	1	6
+121	Armor	40	8	19	15	7	0	1	6
+131	Armor	50	8	20	15	7	0	1	6
+141	Armor	60	8	21	15	7	0	1	6
+
+// Pants
+102	Armor	20	9	17	15	7	0	1	6
+112	Armor	30	9	18	15	7	0	1	6
+122	Armor	40	9	19	15	7	0	1	6
+132	Armor	50	9	20	15	7	0	1	6
+142	Armor	60	9	21	15	7	0	1	6
+
+// Gloves
+103	Armor	20	10	17	15	7	0	1	6
+113	Armor	30	10	18	15	7	0	1	6
+123	Armor	40	10	19	15	7	0	1	6
+133	Armor	50	10	20	15	7	0	1	6
+143	Armor	60	10	21	15	7	0	1	6
+
+// Boots
+104	Armor	20	11	17	15	7	0	1	6
+114	Armor	30	11	18	15	7	0	1	6
+124	Armor	40	11	19	15	7	0	1	6
+134	Armor	50	11	20	15	7	0	1	6
+144	Armor	60	11	21	15	7	0	1	6
+
+// Weapons
+200	Weapons	40	0	17	15	7	1	1	6
+201	Weapons	40	0	18	15	7	1	1	6
+202	Weapons	50	0	19	15	7	1	1	6
+204	Weapons	40	4	17	15	7	1	1	6
+205	Weapons	50	4	18	15	7	1	1	6
+
+// Wings (1st: Elf/Heaven/Satan, 2nd: Spirits/Soul/Dragon/Darkness)
+300	Wings	100	12	0	15	4	0	1	0
+301	Wings	100	12	1	15	4	0	1	0
+302	Wings	100	12	2	15	4	0	1	0
+303	Wings	200	12	3	15	4	0	1	5
+304	Wings	200	12	4	15	4	0	1	5
+305	Wings	200	12	5	15	4	0	1	5
+306	Wings	200	12	6	15	4	0	1	5
+
+// Pets / mounts (Dinorant: skill + 3 excellent options; Uniria has no options)
+400	Misc	150	13	3	0	0	1	0	3
+401	Misc	100	13	2	0	0	0	0	0

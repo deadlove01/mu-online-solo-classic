@@ -28,7 +28,7 @@
 "/pkclear"	1	1	1	1	0	0	0	0	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	0	0	//pkclear
 "/addmoney"	1	1	1	1	0	0	0	0	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	0	1	//addmoney <Amount>
 "/submoney"	1	1	1	1	0	0	0	0	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	0	1	//submoney <Amount>
-"/evo"	1	1	1	1	0	0	0	0	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	0	1	//evo
+"/evo"	1	1	1	1	0	0	0	0	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	0	0	//evo
 "/ware"	1	1	1	1	0	0	0	0	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	0	0	//ware <Number>
 "/onlines"	1	1	1	1	0	0	0	0	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	0	0	//onlines
 "/war"	1	1	1	1	0	0	0	0	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	0	0	//war <GuildName>
@@ -49,4 +49,5 @@
 "/makemob"	1	1	1	1	0	0	0	0	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	0	1	//makemob <MonsterNumber>
 "/tamastart"	1	1	1	1	0	0	0	0	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	0	1	//tamastart
 "/gm"	1	1	1	1	0	0	0	0	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	0	0	//gm <on|off>
+"/zen"	1	1	1	1	0	0	0	0	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	0	0	//zen <Amount>
 end

@@ -20,6 +20,7 @@
 #include "Util.h"
 #include "Monster.h"
 #include "InvasionManager.h"
+#include "WebShop.h"
 
 CCommandManager gCommandManager;
 
@@ -538,6 +539,13 @@ bool CCommandManager::ManagementCore(LPOBJ lpObj, char* message)
 		case COMMAND_GM:
 		{
 			this->CommandGm(lpObj, argument);
+
+			break;
+		}
+
+		case COMMAND_ZEN:
+		{
+			this->CommandAddMoney(lpObj, argument);
 
 			break;
 		}
@@ -1219,6 +1227,8 @@ void CCommandManager::DGCommandResetRecv(SDHP_COMMAND_RESET_RECV* lpMsg)
 
 	gNotice.GCNoticeSend(lpObj->Index, 1, gMessage.GetTextMessage(81, lpObj->Lang), lpObj->Reset);
 
+	gWebShop.OnReset(lpObj);
+
 	if (gServerInfo.m_CommandResetMove[lpObj->AccountLevel] != 0)
 	{
 		if (gServerInfo.m_CommandResetMove[lpObj->AccountLevel] == 2)
@@ -1476,6 +1486,8 @@ void CCommandManager::DGCommandGrandResetRecv(SDHP_COMMAND_RESET_RECV* lpMsg)
 	GCLevelUpSend(lpObj);
 
 	gNotice.GCNoticeSend(lpObj->Index, 1, gMessage.GetTextMessage(90, lpObj->Lang), lpObj->GrandReset);
+
+	gWebShop.OnGrandReset(lpObj);
 
 	if (gServerInfo.m_CommandGrandResetMove[lpObj->AccountLevel] != 0)
 	{

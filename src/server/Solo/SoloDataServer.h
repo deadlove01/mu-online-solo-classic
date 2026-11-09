@@ -9,3 +9,5 @@ void SoloDataServer_Init(const std::string& saveDir);
 void SoloDataServer_SetSaveEventCallback(SoloSaveEventCallback callback);
 void SoloJoinServer_ProcessPacket(BYTE* lpMsg, int size);
 void SoloDataServer_ProcessPacket(BYTE* lpMsg, int size);
+bool SoloDataServer_GetShopPoints(const char* name, DWORD* points, DWORD* total);
+bool SoloDataServer_SetShopPoints(const char* name, DWORD points, DWORD total);

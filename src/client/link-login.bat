@@ -44,6 +44,8 @@ emcc -c -std=c++17 -O2 -ferror-limit=10 -Wno-macro-redefined -Wno-ignored-attrib
 if errorlevel 1 ( echo COMPILE_NET_FAIL & exit /b 1 )
 emcc -c -std=c++17 -O2 -ferror-limit=10 -Wno-macro-redefined -Wno-ignored-attributes -Wno-deprecated-non-prototype -Wno-c++11-narrowing %INC% "%CLIENT_DIR%\browser\mu_mesh_draw.cpp" -o "%OUT%\all\browser_mu_mesh_draw.o"
 if errorlevel 1 ( echo COMPILE_MESH_FAIL & exit /b 1 )
+emcc -c -std=c++17 -O2 -ferror-limit=10 -Wno-macro-redefined -Wno-ignored-attributes -Wno-deprecated-non-prototype -Wno-c++11-narrowing %INC% "%CLIENT_DIR%\browser\mu_gdi.cpp" -o "%OUT%\all\browser_mu_gdi.o"
+if errorlevel 1 ( echo COMPILE_GDI_FAIL & exit /b 1 )
 
 del "%PROOF%\login-objs.txt" 2>nul
 for %%F in ("%OUT%\all\*.o") do (
@@ -60,7 +62,7 @@ if errorlevel 1 (
 )
 echo LINK_OK
 
-powershell -NoProfile -File "%CLIENT_DIR%\patch-login-page.ps1" -Token login103
+powershell -NoProfile -File "%CLIENT_DIR%\patch-login-page.ps1" -Token login119
 if errorlevel 1 (
   echo PATCH_FAIL
   exit /b 1

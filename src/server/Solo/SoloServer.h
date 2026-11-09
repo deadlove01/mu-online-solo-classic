@@ -44,6 +44,10 @@ SOLO_API int  SoloServer_SaveAll();
 SOLO_API void SoloServer_SetDifficulty(int mode);
 SOLO_API int  SoloServer_GetDifficulty();
 
+// Reset Shop: returns JSON state (points + catalog); buy returns result | (delivered << 8)
+SOLO_API const char* SoloServer_ShopState();
+SOLO_API int  SoloServer_ShopBuy(int id, int qty, int level, int skill, int luck, int add, int exc);
+
 #ifdef __cplusplus
 }
 #endif

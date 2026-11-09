@@ -40,6 +40,8 @@ struct SOLO_CHARACTER_EXTENSION
 {
 	DWORD Reset;
 	DWORD GrandReset;
+	DWORD ShopPoints;
+	DWORD ShopPointsTotal;
 };
 
 struct SOLO_ACCOUNT_DATA
@@ -247,6 +249,55 @@ void SoloJoinServer_ProcessPacket(BYTE* lpMsg, int size)
 	}
 }
 
+bool SoloDataServer_GetShopPoints(const char* name, DWORD* points, DWORD* total)
+{
+	std::ifstream file(GetCharacterFilePath(name), std::ios::binary);
+	if (!file.is_open())
+	{
+		return false;
+	}
+
+	SOLO_CHARACTER_EXTENSION ext = { 0, 0, 0, 0 };
+	file.seekg(sizeof(SDHP_CHARACTER_INFO_SAVE_SEND));
+	file.read(reinterpret_cast<char*>(&ext), sizeof(ext));
+
+	if (points) *points = ext.ShopPoints;
+	if (total) *total = ext.ShopPointsTotal;
+	return true;
+}
+
+bool SoloDataServer_SetShopPoints(const char* name, DWORD points, DWORD total)
+{
+	std::string charPath = GetCharacterFilePath(name);
+
+	SOLO_CHARACTER_EXTENSION ext = { 0, 0, 0, 0 };
+	{
+		std::ifstream curFile(charPath, std::ios::binary);
+		if (!curFile.is_open())
+		{
+			return false;
+		}
+		curFile.seekg(sizeof(SDHP_CHARACTER_INFO_SAVE_SEND));
+		curFile.read(reinterpret_cast<char*>(&ext), sizeof(ext));
+	}
+
+	ext.ShopPoints = points;
+	ext.ShopPointsTotal = total;
+
+	std::fstream file(charPath, std::ios::in | std::ios::out | std::ios::binary);
+	if (!file.is_open())
+	{
+		return false;
+	}
+
+	file.seekp(sizeof(SDHP_CHARACTER_INFO_SAVE_SEND));
+	file.write(reinterpret_cast<const char*>(&ext), sizeof(ext));
+	file.flush();
+
+	if (g_SoloSaveEventCallback) g_SoloSaveEventCallback();
+	return true;
+}
+
 void SoloDataServer_ProcessPacket(BYTE* lpMsg, int size)
 {
 	BYTE head = (lpMsg[0] == 0xC1) ? lpMsg[2] : lpMsg[3];
@@ -381,7 +432,7 @@ void SoloDataServer_ProcessPacket(BYTE* lpMsg, int size)
 						if (charFile.is_open())
 						{
 							charFile.write(reinterpret_cast<const char*>(&initChar), sizeof(initChar));
-							SOLO_CHARACTER_EXTENSION ext = { 0, 0 };
+							SOLO_CHARACTER_EXTENSION ext = { 0, 0, 0, 0 };
 							charFile.write(reinterpret_cast<const char*>(&ext), sizeof(ext));
 						}
 
@@ -499,7 +550,10 @@ void SoloDataServer_ProcessPacket(BYTE* lpMsg, int size)
 							pRecv.GrandReset = 0;
 
 							SOLO_CHARACTER_EXTENSION ext;
-							if (file.read(reinterpret_cast<char*>(&ext), sizeof(ext)) && file.gcount() == sizeof(ext))
+							ext = { 0, 0, 0, 0 };
+							file.read(reinterpret_cast<char*>(&ext), sizeof(ext));
+							// Older saves only carry Reset/GrandReset; the shop fields stay zero
+							if (file.gcount() >= (std::streamsize)(2 * sizeof(DWORD)))
 							{
 								pRecv.Reset = ext.Reset;
 								pRecv.GrandReset = ext.GrandReset;
@@ -525,7 +579,7 @@ void SoloDataServer_ProcessPacket(BYTE* lpMsg, int size)
 					std::string charPath = GetCharacterFilePath(lpSave->name);
 
 					// Preserve existing extension if present
-					SOLO_CHARACTER_EXTENSION ext = { 0, 0 };
+					SOLO_CHARACTER_EXTENSION ext = { 0, 0, 0, 0 };
 					{
 						std::ifstream curFile(charPath, std::ios::binary);
 						if (curFile.is_open())
@@ -727,7 +781,7 @@ void SoloDataServer_ProcessPacket(BYTE* lpMsg, int size)
 					auto* lpSave = reinterpret_cast<SDHP_RESET_INFO_SAVE_SEND*>(lpMsg);
 					std::string charPath = GetCharacterFilePath(lpSave->name);
 
-					SOLO_CHARACTER_EXTENSION ext = { 0, 0 };
+					SOLO_CHARACTER_EXTENSION ext = { 0, 0, 0, 0 };
 					{
 						std::ifstream curFile(charPath, std::ios::binary);
 						if (curFile.is_open())
@@ -754,7 +808,15 @@ void SoloDataServer_ProcessPacket(BYTE* lpMsg, int size)
 					auto* lpSave = reinterpret_cast<SDHP_GRAND_RESET_INFO_SAVE_SEND*>(lpMsg);
 					std::string charPath = GetCharacterFilePath(lpSave->name);
 
-					SOLO_CHARACTER_EXTENSION ext = { 0, 0 };
+					SOLO_CHARACTER_EXTENSION ext = { 0, 0, 0, 0 };
+					{
+						std::ifstream curFile(charPath, std::ios::binary);
+						if (curFile.is_open())
+						{
+							curFile.seekg(sizeof(SDHP_CHARACTER_INFO_SAVE_SEND));
+							curFile.read(reinterpret_cast<char*>(&ext), sizeof(ext));
+						}
+					}
 					ext.Reset = lpSave->Reset;
 					ext.GrandReset = lpSave->GrandReset;
 

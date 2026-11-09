@@ -2,7 +2,7 @@
 const workerParams = (typeof self !== 'undefined' && self.location && self.location.search) 
     ? new URLSearchParams(self.location.search) 
     : new URLSearchParams('');
-const WORKER_VERSION = workerParams.get('v') || 'login103';
+const WORKER_VERSION = workerParams.get('v') || 'login119';
 
 importScripts(`muserver.js?v=${WORKER_VERSION}`);
 
@@ -514,6 +514,27 @@ self.onmessage = async function (e) {
                 type: 'SAVES_IMPORTED',
                 count: count
             });
+            break;
+        }
+
+        case 'SHOP_STATE': {
+            try {
+                const json = Module.ccall('SoloServer_ShopState', 'string', [], []);
+                self.postMessage({ type: 'SHOP_STATE', state: JSON.parse(json) });
+            } catch (err) {
+                self.postMessage({ type: 'SHOP_STATE', state: null, error: err.message });
+            }
+            break;
+        }
+
+        case 'SHOP_BUY': {
+            const rc = Module.ccall('SoloServer_ShopBuy', 'number', ['number', 'number', 'number', 'number', 'number', 'number', 'number'],
+                [payload.id | 0, payload.qty | 0, payload.level | 0, payload.skill | 0, payload.luck | 0, payload.add | 0, payload.exc | 0]);
+            let state = null;
+            try {
+                state = JSON.parse(Module.ccall('SoloServer_ShopState', 'string', [], []));
+            } catch (err) {}
+            self.postMessage({ type: 'SHOP_RESULT', result: rc & 0xFF, delivered: rc >> 8, id: payload.id, qty: payload.qty, state: state });
             break;
         }
 
