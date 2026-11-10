@@ -11,15 +11,27 @@
     7: 'Could not save your points. Try again.'
   };
 
+  var ARMOR_EXC = ['Max HP +4%', 'Max Mana +4%', 'Damage decrease +4%', 'Reflect damage +5%', 'Defense success rate +10%', 'Zen drop +30%'];
+  var WEAPON_EXC = ['Excellent damage rate +10%', 'Damage +level/20', 'Damage +2%', 'Attack speed +7', 'Life after hunt +life/8', 'Mana after hunt +mana/8'];
   var EXC_NAMES = {
-    Armor: ['Max HP +4%', 'Max Mana +4%', 'Damage decrease +4%', 'Reflect damage +5%', 'Defense success rate +10%', 'Zen drop +30%'],
-    Weapons: ['Excellent damage rate +10%', 'Damage +level/20', 'Damage +2%', 'Attack speed +7', 'Life after hunt +life/8', 'Mana after hunt +mana/8'],
+    Armor: ARMOR_EXC,
+    Rings: ARMOR_EXC,
+    Weapons: WEAPON_EXC,
     Wings: ['Max HP +', 'Max Mana +', 'Ignore enemy defense 3%', 'Max AG +50', 'Attack speed +5'],
     Misc: ['Absorb 5% damage', 'Max AG +50', 'Attack speed +5']
   };
+  // Pendant excellent options follow weapons, but Lightning is wizardry and Fire is physical.
+  var EXC_BY_ITEM = {
+    '13_12': ['Excellent damage rate +10%', 'Wizardry damage +level/20', 'Wizardry damage +2%', 'Attack speed +7', 'Life after hunt +life/8', 'Mana after hunt +mana/8'],
+    '13_13': WEAPON_EXC
+  };
+
+  function isAccessory(it) {
+    return it.sec === 13 && (it.idx === 8 || it.idx === 9 || it.idx === 12 || it.idx === 13);
+  }
 
   function excName(it, i) {
-    var list = EXC_NAMES[it.cat] || [];
+    var list = EXC_BY_ITEM[it.sec + '_' + it.idx] || EXC_NAMES[it.cat] || [];
     return list[i] || ('Excellent ' + (i + 1));
   }
 
@@ -113,7 +125,7 @@
     var excCost = s ? s.excCost : 60;
 
     box.appendChild(noteSection('How points work', [
-      'Every /reset gives ' + (s ? s.perReset : 30) + ' Reset Points (RP); every ' + (s ? s.milestoneStep : 10) + 'th reset gives +' + (s ? s.milestoneBonus : 60) + ' RP extra.',
+      'Every /reset gives ' + (s ? s.perReset : 60) + ' Reset Points (RP); every ' + (s ? s.milestoneStep : 10) + 'th reset gives +' + (s ? s.milestoneBonus : 60) + ' RP extra.',
       'Every /grandreset gives ' + (s ? s.perGrandReset : 1500) + ' RP. Points are saved per character.',
       'Price = base price + options you choose. Pick fewer options to afford a better item.'
     ]));
@@ -121,12 +133,20 @@
       'Level (+0 to +15): cost grows with the level; +9 costs ' + (s ? s.levelCost[9] : 62) + ' RP, +13 costs ' + (s ? s.levelCost[13] : 190) + ' RP.',
       'Skill: adds the weapon skill (weapons and Dinorant). Luck: +5% critical damage rate.',
       'Option (+4 to +28): additional damage on weapons, additional defense on armor. Each step costs ' + (s ? s.addCost : 15) + ' RP.',
+      'Rings and pendants use the same picker. Their option is HP recovery +1% to +7% per step, at the same cost. They have no skill or luck.',
       'Excellent: each option you tick costs ' + excCost + ' RP. Details per item type are below.'
     ]));
 
-    Object.keys(EXC_NAMES).forEach(function (cat) {
-      var title = { Armor: 'Excellent options: armor (helm, armor, pants, gloves, boots)', Weapons: 'Excellent options: weapons (swords, bows)', Wings: 'Excellent options: 2nd wings (1st wings have none)', Misc: 'Excellent options: Dinorant' }[cat];
-      box.appendChild(noteSection(title, EXC_NAMES[cat].map(function (n, i) { return 'Excellent ' + (i + 1) + ': ' + n; })));
+    var excNotes = [
+      ['Excellent options: armor (helm, armor, pants, gloves, boots)', EXC_NAMES.Armor],
+      ['Excellent options: rings (Ring of Ice, Ring of Poison)', EXC_NAMES.Rings],
+      ['Excellent options: weapons (swords, bows) and Pendant of Fire', EXC_NAMES.Weapons],
+      ['Excellent options: Pendant of Lightning', EXC_BY_ITEM['13_12']],
+      ['Excellent options: 2nd wings (1st wings have none)', EXC_NAMES.Wings],
+      ['Excellent options: Dinorant', EXC_NAMES.Misc]
+    ];
+    excNotes.forEach(function (row) {
+      box.appendChild(noteSection(row[0], row[1].map(function (n, i) { return 'Excellent ' + (i + 1) + ': ' + n; })));
     });
     box.appendChild(noteSection('Good to know', [
       'Wings have their own option: +4 steps of extra damage, wizardry or HP recovery depending on the wings.',
@@ -196,7 +216,13 @@
     $('muShopConfirmImg').style.visibility = 'visible';
     $('muShopConfirmImg').src = 'shop_icons/' + it.sec + '_' + it.idx + '.png?v=' + (window.BUILD_VERSION || '');
     fillSelect($('muShopLevel'), it.maxLevel, function (i) { return '+' + i + (i ? ' (+' + state.levelCost[i] + ' RP)' : ''); });
-    fillSelect($('muShopAdd'), it.maxAdd, function (i) { return i ? '+' + (i * 4) + ' (+' + (i * state.addCost) + ' RP)' : 'None'; });
+    var accessory = isAccessory(it);
+    $('muShopAdd').parentNode.childNodes[0].textContent = accessory ? 'HP recovery ' : 'Option ';
+    fillSelect($('muShopAdd'), it.maxAdd, function (i) {
+      if (!i) return 'None';
+      var name = accessory ? ('+' + i + '%') : ('+' + (i * 4));
+      return name + ' (+' + (i * state.addCost) + ' RP)';
+    });
     $('muShopLevel').parentNode.hidden = it.maxLevel === 0;
     $('muShopAdd').parentNode.hidden = it.maxAdd === 0;
 

@@ -4,7 +4,7 @@
  * ============================================================================
  */
 
-const BUILD_VERSION = window.BUILD_VERSION = 'login119';
+const BUILD_VERSION = window.BUILD_VERSION = 'login122';
 
 // ── 1. Virtual Touch Controls & On-Screen Keyboard ──────────────────────────
 

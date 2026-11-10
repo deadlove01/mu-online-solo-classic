@@ -39,7 +39,13 @@ function modelFor(sec, idx) {
   const parts = { 7: 'HelmMale', 8: 'ArmorMale', 9: 'PantMale', 10: 'GloveMale', 11: 'BootMale' };
   if (parts[sec]) return [player, `${parts[sec]}${pad2(idx + 1)}.bmd`];
   if (sec === 12) return [item, `Wing${pad2(idx + 1)}.bmd`];
-  if (sec === 13) return [player, `Helper${pad2(idx + 1)}.bmd`];
+  if (sec === 13) {
+    if (idx === 8) return [item, 'Ring01.bmd'];
+    if (idx === 9) return [item, 'Ring02.bmd'];
+    if (idx === 12) return [item, 'Necklace01.bmd'];
+    if (idx === 13) return [item, 'Necklace02.bmd'];
+    return [player, `Helper${pad2(idx + 1)}.bmd`];
+  }
   if (sec === 14) {
     if (idx === 16) return [item, 'Jewel03.bmd'];
     if (idx === 22) return [item, 'jewel22.bmd'];
@@ -52,6 +58,8 @@ const VIEWS = {
   0: [-90, 0, 135], 4: [-90, 0, 0], 7: [-90, 0, 0], 8: [-90, 0, 0], 9: [-90, 0, 0], 10: [-90, 0, 0], 11: [-90, 0, 0],
   12: [-90, 0, 0], 13: [90, 0, 0], 14: [90, 0, 0],
 };
+// Pendants read as a necklace only when the gem faces the camera.
+const ITEM_VIEWS = { '13_12': [180, 0, 0], '13_13': [180, 0, 0] };
 
 function decryptBmd(buf) {
   if (buf.toString('latin1', 0, 3) !== 'BMD') throw new Error('not a BMD');
@@ -341,7 +349,7 @@ function main() {
     try {
       const model = parseBmd(fs.readFileSync(file));
       const dirs = [path.dirname(file), path.join(DATA, 'Item'), path.join(DATA, 'Player')];
-      const img = render(model, dirs, VIEWS[sec] || [90, 0, 0], sec === 12);
+      const img = render(model, dirs, ITEM_VIEWS[key] || VIEWS[sec] || [90, 0, 0], sec === 12);
       fs.writeFileSync(path.join(OUT, key + '.png'), png(SIZE, SIZE, img));
       made.push([key, img]);
       console.log('ok', key, path.basename(file));

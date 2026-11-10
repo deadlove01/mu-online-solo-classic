@@ -53,6 +53,17 @@ The engine provides 3 dedicated game modes with completely **isolated save slots
 
 ---
 
+## 🛒 Reset Shop
+
+Every `/reset` earns **60 Reset Points (RP)** (+60 bonus on every 10th reset) and every `/grandreset` earns **1500 RP**. Spend them in the in-browser **Shop** (top bar) on items with configurable level, skill, luck, option and excellent options; each choice adds to the price. Points are saved per character.
+
+- Catalog and prices: `src/server/Data/WebShop.txt` (rebuild the server after editing)
+- Point constants and server logic: `src/server/Solo/WebShop.h`
+- UI: `web/shop.js`; item icons: `web/shop_icons/<section>_<index>.png`
+- Regenerate icons from client BMD/OZJ/OZT assets: `NODE_PATH=<dir with jpeg-js> node tools/shop-icons/render.cjs`
+
+---
+
 ## 📁 Repository Structure
 
 ```
@@ -78,6 +89,7 @@ mu-online-solo-classic/
 │   │   ├── Data/                   # Original 0.97k game tables, configs, and .att terrain maps
 │   │   ├── CMakeLists.txt          # Emscripten CMake build configuration
 │   │   └── test_node.cjs           # Node.js automated test runner for the WASM build
+│   │   ├── build.ps1               # One-step Windows build (emsdk + CMake + Ninja, deploys to web/)
 │   └── client/                     # WebGL2 WebAssembly Client & C++ engine
 │       ├── src/                    # Full 0.97k client C++ sources (24 subsystems: Render, UI, Model, Combat, etc.)
 │       ├── lib/                    # Client libraries (miniaudio, libjpeg-6b)
@@ -87,6 +99,8 @@ mu-online-solo-classic/
 ├── web/
 │   ├── index.html                  # Playable full-screen 3D WebGL2 Game Client & in-browser runtime
 │   ├── server_worker.js            # Dedicated Web Worker hosting the WASM GameServer
+│   ├── app.js / style.css          # Top bar, realm selector, save management, UI glue
+│   ├── shop.js / shop_icons/       # Reset Shop UI and item icons
 │   ├── serve.cjs                   # Lightweight local streaming HTTP server with CORS headers
 │   ├── muserver.wasm               # Compiled GameServer WebAssembly binary (~698 KB)
 │   ├── muserver.js                 # Emscripten JavaScript runtime glue & module loader
@@ -94,7 +108,8 @@ mu-online-solo-classic/
 │   ├── shell_login.js              # Client Emscripten runtime glue
 │   ├── shell_login.wasm            # Client WebAssembly engine binary (~1.7 MB)
 │   └── shell_login.data            # Client preloaded game assets (~219 MB)
-└── reference/                      # Reference C++ sources (Server & Client)
+├── tools/shop-icons/render.cjs     # Software renderer for shop item icons
+└── .agents/                        # Agent rules and the mu-solo-build skill
 ```
 
 > 📖 **In-Game Commands Guide**: For a full list of player commands (`/str`, `/agi`, `/reset`, `/ware`, `/pkclear`, etc.) and Game Master commands (`/make`, `/makeset`, `/evo`, `/makemob`, etc.), see [**`docs/COMMANDS.md`**](docs/COMMANDS.md).
@@ -168,7 +183,14 @@ ninja -C src/server/build
 cp src/server/build/muserver.* web/
 ```
 
-#### On Windows (PowerShell or Command Prompt):
+#### On Windows (recommended: build script):
+```powershell
+powershell -ExecutionPolicy Bypass -File src/server/build.ps1          # incremental
+powershell -ExecutionPolicy Bypass -File src/server/build.ps1 -Clean   # clean build
+```
+The script locates emsdk, builds, and copies `muserver.*` into `web/` automatically.
+
+#### On Windows (manual, PowerShell or Command Prompt):
 ```cmd
 :: Navigate to repository root
 cd path\to\mu-online-solo-classic
@@ -206,6 +228,16 @@ node src/server/test_node.cjs
 [NodeTest] Tick loop OK!
 [NodeTest] ALL TESTS PASSED! GameServer is ready for web deployment.
 ```
+
+---
+
+### Step 4 (optional): Rebuild the WebGL2 Client
+
+After changing sources in `src/client/`, run `src/client/compile-objects.bat`, then `powershell -ExecutionPolicy Bypass -File src/client/build.ps1` (or `link-login.bat`) to link and deploy `shell_login.*` into `web/`.
+
+### Cache busting
+
+Browsers cache WASM, workers and scripts aggressively. After any server, client or web change, bump the version token (e.g. `login103` → `login104`) in `web/app.js`, `web/server_worker.js`, `web/index.html`, `src/client/build.ps1` and `src/client/link-login.bat`. See `.agents/skills/mu-solo-build/SKILL.md` for the exact lines.
 
 ---
 

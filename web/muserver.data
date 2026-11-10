@@ -10355,7 +10355,7 @@ end
 
 
 end//=====================================================================
-// Reset Shop catalog (prices in Reset Points, 1 reset = 5 RP)
+// Reset Shop catalog (prices in Reset Points; see WebShop.h for points per reset)
 //
 // Final price = Base + LevelCost[level] + SkillCost + LuckCost
 //             + AddCost * add + ExcCost * (number of excellent options)
@@ -10421,6 +10421,16 @@ ExcCost	60
 202	Weapons	50	0	19	15	7	1	1	6
 204	Weapons	40	4	17	15	7	1	1	6
 205	Weapons	50	4	18	15	7	1	1	6
+
+// Rings (excellent options match armor). The option is HP recovery +1% per step,
+// not +4 defense. Skill and luck do not exist on these items.
+500	Rings	50	13	8	15	7	0	0	6
+501	Rings	50	13	9	15	7	0	0	6
+
+// Pendants (excellent options match weapons). Lightning uses wizardry damage;
+// Fire uses physical damage. The option is HP recovery +1% per step.
+510	Pendants	60	13	12	15	7	0	0	6
+511	Pendants	60	13	13	15	7	0	0	6
 
 // Wings (1st: Elf/Heaven/Satan, 2nd: Spirits/Soul/Dragon/Darkness)
 300	Wings	100	12	0	15	4	0	1	0

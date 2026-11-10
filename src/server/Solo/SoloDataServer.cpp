@@ -66,6 +66,21 @@ static std::string GetWarehouseFilePath(const char* account)
 	return g_SaveDirectory + "/warehouse_" + std::string(account) + ".dat";
 }
 
+struct SOLO_OPTION_DATA
+{
+	BYTE SkillKey[10];
+	BYTE GameOption;
+	BYTE QKey;
+	BYTE WKey;
+	BYTE EKey;
+	BYTE ChatWindow;
+};
+
+static std::string GetOptionFilePath(const char* name)
+{
+	return g_SaveDirectory + "/option_" + std::string(name) + ".dat";
+}
+
 // The character list stores 5 bytes per worn item, but a saved item is 10.
 // DGCharacterListRecv rebuilds the item index as
 //   byte0 + ((byte2 & 0x80) * 2) + ((byte4 & 0xF0) * 32)
@@ -482,6 +497,7 @@ void SoloDataServer_ProcessPacket(BYTE* lpMsg, int size)
 
 						std::error_code ec;
 						fs::remove(GetCharacterFilePath(lpSend->name), ec);
+						fs::remove(GetOptionFilePath(lpSend->name), ec);
 						LogAdd(LOG_BLUE, "[SoloDataServer] Character deleted: %s", lpSend->name);
 						if (g_SoloSaveEventCallback) g_SoloSaveEventCallback();
 					}
@@ -767,12 +783,45 @@ void SoloDataServer_ProcessPacket(BYTE* lpMsg, int size)
 					pRecv.WKey = 0;
 					pRecv.EKey = 0;
 					pRecv.ChatWindow = 0;
+
+					{
+						std::ifstream optFile(GetOptionFilePath(lpSend->name), std::ios::binary);
+						SOLO_OPTION_DATA saved;
+						if (optFile.is_open() && optFile.read(reinterpret_cast<char*>(&saved), sizeof(saved)) && optFile.gcount() == sizeof(saved))
+						{
+							std::memcpy(pRecv.SkillKey, saved.SkillKey, sizeof(pRecv.SkillKey));
+							pRecv.GameOption = saved.GameOption;
+							pRecv.QKey = saved.QKey;
+							pRecv.WKey = saved.WKey;
+							pRecv.EKey = saved.EKey;
+							pRecv.ChatWindow = saved.ChatWindow;
+						}
+					}
+
 					DGOptionDataRecv(&pRecv);
 					break;
 				}
 
-				case 0x01: // Option data save
+				case 0x01: // Option data save (skill hotkeys, Q/W/E potion keys, chat window)
 				{
+					auto* lpSave = reinterpret_cast<SDHP_OPTION_DATA_SAVE_SEND*>(lpMsg);
+
+					SOLO_OPTION_DATA saved;
+					std::memcpy(saved.SkillKey, lpSave->SkillKey, sizeof(saved.SkillKey));
+					saved.GameOption = lpSave->GameOption;
+					saved.QKey = lpSave->QKey;
+					saved.WKey = lpSave->WKey;
+					saved.EKey = lpSave->EKey;
+					saved.ChatWindow = lpSave->ChatWindow;
+
+					std::ofstream optFile(GetOptionFilePath(lpSave->name), std::ios::binary | std::ios::trunc);
+					if (optFile.is_open())
+					{
+						optFile.write(reinterpret_cast<const char*>(&saved), sizeof(saved));
+						optFile.close();
+						LogAdd(LOG_BLUE, "[SoloDataServer] Saved options for %s", lpSave->name);
+						if (g_SoloSaveEventCallback) g_SoloSaveEventCallback();
+					}
 					break;
 				}
 
