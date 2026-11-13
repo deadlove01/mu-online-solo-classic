@@ -190,7 +190,7 @@ Set up an automated grinding loop that automatically performs a reset the exact 
 
 ### Reset Shop
 
-Every successful `/reset` (manual or auto) grants **60 Reset Points (RP)**, with a **+60 RP** bonus on every 10th reset. A successful `/grandreset` grants **1500 RP**. Click the **Shop** button in the top bar to spend RP on items; each item has a base price and every option you tick (level, skill, luck, option, excellent) adds to it. The catalog and prices live in `src/server/Data/WebShop.txt` (rebuild the server after editing it); the point amounts are constants in `src/server/Solo/WebShop.h`. Points are saved per character.
+Every successful `/reset` (manual or auto) grants **100 Reset Points (RP)**, with a **+60 RP** bonus on every 10th reset. A successful `/grandreset` grants **1500 RP**. Click the **Shop** button in the top bar to spend RP on items; each item has a base price and every option you tick (level, skill, luck, option, excellent) adds to it. The catalog and prices live in `src/server/Data/WebShop.txt` (rebuild the server after editing it); the point amounts are constants in `src/server/Solo/WebShop.h`. Points are saved per character.
 
 ### Grand Reset
 

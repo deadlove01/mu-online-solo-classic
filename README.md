@@ -55,7 +55,7 @@ The engine provides 3 dedicated game modes with completely **isolated save slots
 
 ## 🛒 Reset Shop
 
-Every `/reset` earns **60 Reset Points (RP)** (+60 bonus on every 10th reset) and every `/grandreset` earns **1500 RP**. Spend them in the in-browser **Shop** (top bar) on items with configurable level, skill, luck, option and excellent options; each choice adds to the price. Points are saved per character.
+Every `/reset` earns **100 Reset Points (RP)** (+60 bonus on every 10th reset) and every `/grandreset` earns **1500 RP**. Spend them in the in-browser **Shop** (top bar) on items with configurable level, skill, luck, option and excellent options; each choice adds to the price. Points are saved per character.
 
 - Catalog and prices: `src/server/Data/WebShop.txt` (rebuild the server after editing)
 - Point constants and server logic: `src/server/Solo/WebShop.h`

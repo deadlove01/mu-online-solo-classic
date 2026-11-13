@@ -59,12 +59,32 @@ ExcCost	60
 134	Armor	50	11	20	15	7	0	1	6
 144	Armor	60	11	21	15	7	0	1	6
 
-// Weapons
+// Weapons. Staffs have no weapon skill; their option and two excellent
+// lines are wizardry damage, not physical damage.
+//
+// Dark Knight: Dark Breaker, Dragon Spear, rare Chaos Dragon Axe (also MG),
+// rare Crimson Knight Blade.
 200	Weapons	40	0	17	15	7	1	1	6
+220	Weapons	45	3	10	15	7	1	1	6
+221	Weapons	70	2	6	15	7	1	1	6
+222	Weapons	75	0	32	15	7	1	1	6
+// Magic Gladiator: Thunder Blade, rare Divine Sword of Archangel (also DK),
+// Rune Blade (Power Slash, physical + wizardry).
 201	Weapons	40	0	18	15	7	1	1	6
 202	Weapons	50	0	19	15	7	1	1	6
+230	Weapons	80	0	31	15	7	1	1	6
+// Fairy Elf: Celestial Bow, Divine Crossbow of Archangel, Saint Crossbow,
+// rare Chaos Nature Bow.
 204	Weapons	40	4	17	15	7	1	1	6
 205	Weapons	50	4	18	15	7	1	1	6
+240	Weapons	40	4	16	15	7	1	1	6
+241	Weapons	65	4	6	15	7	1	1	6
+// Dark Wizard: Staff of Destruction, Dragon Soul Staff, rare Chaos Lightning
+// Staff, Divine Staff of Archangel (highest wizardry).
+210	Weapons	50	5	8	15	7	0	1	6
+211	Weapons	45	5	9	15	7	0	1	6
+212	Weapons	70	5	7	15	7	0	1	6
+213	Weapons	80	5	10	15	7	0	1	6
 
 // Rings (excellent options match armor). The option is HP recovery +1% per step,
 // not +4 defense. Skill and luck do not exist on these items.

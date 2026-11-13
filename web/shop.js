@@ -13,6 +13,7 @@
 
   var ARMOR_EXC = ['Max HP +4%', 'Max Mana +4%', 'Damage decrease +4%', 'Reflect damage +5%', 'Defense success rate +10%', 'Zen drop +30%'];
   var WEAPON_EXC = ['Excellent damage rate +10%', 'Damage +level/20', 'Damage +2%', 'Attack speed +7', 'Life after hunt +life/8', 'Mana after hunt +mana/8'];
+  var STAFF_EXC = ['Excellent damage rate +10%', 'Wizardry damage +level/20', 'Wizardry damage +2%', 'Attack speed +7', 'Life after hunt +life/8', 'Mana after hunt +mana/8'];
   var EXC_NAMES = {
     Armor: ARMOR_EXC,
     Rings: ARMOR_EXC,
@@ -23,7 +24,11 @@
   // Pendant excellent options follow weapons, but Lightning is wizardry and Fire is physical.
   var EXC_BY_ITEM = {
     '13_12': ['Excellent damage rate +10%', 'Wizardry damage +level/20', 'Wizardry damage +2%', 'Attack speed +7', 'Life after hunt +life/8', 'Mana after hunt +mana/8'],
-    '13_13': WEAPON_EXC
+    '13_13': WEAPON_EXC,
+    '5_7': STAFF_EXC,
+    '5_8': STAFF_EXC,
+    '5_9': STAFF_EXC,
+    '5_10': STAFF_EXC
   };
 
   function isAccessory(it) {
@@ -125,14 +130,14 @@
     var excCost = s ? s.excCost : 60;
 
     box.appendChild(noteSection('How points work', [
-      'Every /reset gives ' + (s ? s.perReset : 60) + ' Reset Points (RP); every ' + (s ? s.milestoneStep : 10) + 'th reset gives +' + (s ? s.milestoneBonus : 60) + ' RP extra.',
+      'Every /reset gives ' + (s ? s.perReset : 100) + ' Reset Points (RP); every ' + (s ? s.milestoneStep : 10) + 'th reset gives +' + (s ? s.milestoneBonus : 60) + ' RP extra.',
       'Every /grandreset gives ' + (s ? s.perGrandReset : 1500) + ' RP. Points are saved per character.',
       'Price = base price + options you choose. Pick fewer options to afford a better item.'
     ]));
     box.appendChild(noteSection('Options', [
       'Level (+0 to +15): cost grows with the level; +9 costs ' + (s ? s.levelCost[9] : 62) + ' RP, +13 costs ' + (s ? s.levelCost[13] : 190) + ' RP.',
       'Skill: adds the weapon skill (weapons and Dinorant). Luck: +5% critical damage rate.',
-      'Option (+4 to +28): additional damage on weapons, additional defense on armor. Each step costs ' + (s ? s.addCost : 15) + ' RP.',
+      'Option (+4 to +28): additional damage on weapons, additional wizardry on staffs, additional defense on armor. Each step costs ' + (s ? s.addCost : 15) + ' RP.',
       'Rings and pendants use the same picker. Their option is HP recovery +1% to +7% per step, at the same cost. They have no skill or luck.',
       'Excellent: each option you tick costs ' + excCost + ' RP. Details per item type are below.'
     ]));
@@ -140,7 +145,8 @@
     var excNotes = [
       ['Excellent options: armor (helm, armor, pants, gloves, boots)', EXC_NAMES.Armor],
       ['Excellent options: rings (Ring of Ice, Ring of Poison)', EXC_NAMES.Rings],
-      ['Excellent options: weapons (swords, bows) and Pendant of Fire', EXC_NAMES.Weapons],
+      ['Excellent options: weapons (swords, bows, spears) and Pendant of Fire', EXC_NAMES.Weapons],
+      ['Excellent options: staffs', STAFF_EXC],
       ['Excellent options: Pendant of Lightning', EXC_BY_ITEM['13_12']],
       ['Excellent options: 2nd wings (1st wings have none)', EXC_NAMES.Wings],
       ['Excellent options: Dinorant', EXC_NAMES.Misc]
@@ -217,10 +223,11 @@
     $('muShopConfirmImg').src = 'shop_icons/' + it.sec + '_' + it.idx + '.png?v=' + (window.BUILD_VERSION || '');
     fillSelect($('muShopLevel'), it.maxLevel, function (i) { return '+' + i + (i ? ' (+' + state.levelCost[i] + ' RP)' : ''); });
     var accessory = isAccessory(it);
-    $('muShopAdd').parentNode.childNodes[0].textContent = accessory ? 'HP recovery ' : 'Option ';
+    var staff = it.sec === 5;
+    $('muShopAdd').parentNode.childNodes[0].textContent = accessory ? 'HP recovery ' : (staff ? 'Wizardry ' : 'Option ');
     fillSelect($('muShopAdd'), it.maxAdd, function (i) {
       if (!i) return 'None';
-      var name = accessory ? ('+' + i + '%') : ('+' + (i * 4));
+      var name = accessory ? ('+' + i + '%') : (staff ? ('+' + (i * 4) + ' wiz') : ('+' + (i * 4)));
       return name + ' (+' + (i * state.addCost) + ' RP)';
     });
     $('muShopLevel').parentNode.hidden = it.maxLevel === 0;

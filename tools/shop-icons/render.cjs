@@ -29,7 +29,14 @@ const pad2 = (n) => String(n).padStart(2, '0');
 function modelFor(sec, idx) {
   const item = path.join(DATA, 'Item');
   const player = path.join(DATA, 'Player');
-  if (sec === 0) return [item, `Sword${pad2(idx + 1)}.bmd`];
+  if (sec === 0) {
+    if (idx === 32) return [path.join(item, 'Custom', '20'), 'sword21.bmd'];
+    return [item, `Sword${pad2(idx + 1)}.bmd`];
+  }
+  if (sec === 1) return [item, `Axe${pad2(idx + 1)}.bmd`];
+  if (sec === 2) return [item, `Mace${pad2(idx + 1)}.bmd`];
+  if (sec === 3) return [item, `Spear${pad2(idx + 1)}.bmd`];
+  if (sec === 5) return [item, `Staff${pad2(idx + 1)}.bmd`];
   if (sec === 4) {
     if (idx <= 6) return [item, `Bow${pad2(idx + 1)}.bmd`];
     if (idx >= 8 && idx <= 14) return [item, `CrossBow${pad2(idx - 7)}.bmd`];
@@ -55,11 +62,12 @@ function modelFor(sec, idx) {
 
 // Per-section view rotation in degrees (x, y, z) applied to the model
 const VIEWS = {
-  0: [-90, 0, 135], 4: [-90, 0, 0], 7: [-90, 0, 0], 8: [-90, 0, 0], 9: [-90, 0, 0], 10: [-90, 0, 0], 11: [-90, 0, 0],
+  0: [-90, 0, 135], 1: [-90, 0, 135], 2: [-90, 0, 135], 3: [-90, 0, 135], 5: [-90, 0, 135],
+  4: [-90, 0, 0], 7: [-90, 0, 0], 8: [-90, 0, 0], 9: [-90, 0, 0], 10: [-90, 0, 0], 11: [-90, 0, 0],
   12: [-90, 0, 0], 13: [90, 0, 0], 14: [90, 0, 0],
 };
 // Pendants read as a necklace only when the gem faces the camera.
-const ITEM_VIEWS = { '13_12': [180, 0, 0], '13_13': [180, 0, 0] };
+const ITEM_VIEWS = { '13_12': [180, 0, 0], '13_13': [180, 0, 0], '5_8': [-90, 90, 45] };
 
 function decryptBmd(buf) {
   if (buf.toString('latin1', 0, 3) !== 'BMD') throw new Error('not a BMD');
